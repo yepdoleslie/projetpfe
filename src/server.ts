@@ -5,6 +5,8 @@ import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import { connectDB } from '../config/database';
 import log from './utils/logger';
+import formationRouter from './routes/formationRouter';
+import moduleRouter from './routes/moduleRouter';
 
 const app = express();
 
@@ -23,6 +25,10 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.get('/healthcheck', (_, res) => {
     res.status(200).send({ msg: 'All is Ok '});
 });
+
+// Utiliser le routeur de formation
+app.use('/formations', formationRouter);
+app.use('/modules', moduleRouter);
 
 const PORT = process.env.PORT;
 

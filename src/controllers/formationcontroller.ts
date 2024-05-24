@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Formation, { IFormation } from '../models/formation';
+import Module, {IModule} from '../models/module';
 
 // Création d'une formation
 export const createFormation = async (req: Request, res: Response): Promise<void> => {
@@ -22,7 +23,7 @@ export const getAllFormations = async (req: Request, res: Response): Promise<voi
     }
 };
 
-// Obtenir une formation par ID
+// Obtenir une formation par ID avec les modules complets
 export const getFormationById = async (req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
     try {

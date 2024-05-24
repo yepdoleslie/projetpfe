@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
+import autopopulate from 'mongoose-autopopulate';
 
 // Définition de l'interface pour la table Module
 export interface IModule extends Document {
@@ -24,12 +25,18 @@ const ModuleSchema: Schema = new Schema(
             type: String,
             required: true,
         },
-        formation: { type: Schema.Types.ObjectId, ref: "Formation" }, // Référence à la formation associée
+        formation: { 
+            type: Schema.Types.ObjectId, 
+            ref: "Formation",
+            autopopulate: true // Activation de l'auto-population
+        },
     },
     {
         timestamps: true,
     }
 );
+
+ModuleSchema.plugin(autopopulate); // Ajout du plugin au schéma
 
 // Création du modèle Module à partir du schéma
 const Module = mongoose.model<IModule>("Module", ModuleSchema);

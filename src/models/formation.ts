@@ -1,4 +1,6 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document } from 'mongoose';
+import autopopulate from 'mongoose-autopopulate';
+import Module from './module'; // Importez le modèle Module avant d'utiliser
 
 // Définition de l'interface pour la table Formation
 export interface IFormation extends Document {
@@ -31,15 +33,15 @@ const FormationSchema: Schema = new Schema(
             required: true,
             trim: true,
         },
-        modules: [{ type: Schema.Types.ObjectId, ref: "Module" }], // Référence aux modules associés
-        duree: {
-            type: Number,
-            required: true,
-        },
+        modules: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Module',
+            autopopulate: true // Activation de l'auto-population
+        }],
         niveau: {
             type: String,
             required: true,
-            enum: ["Débutant", "Intermédiaire", "Avancé"],
+            enum: ['Débutant', 'Intermédiaire', 'Avancé'],
         },
         prix: {
             type: Number,
@@ -49,14 +51,17 @@ const FormationSchema: Schema = new Schema(
             type: Number,
             default: 0, // Valeur par défaut pour l'évaluation moyenne
         },
-        participants: [{ type: Schema.Types.ObjectId, ref: "User" }], // Référence aux participants
+        participants: [{ type: Schema.Types.ObjectId, ref: 'User' }], // Référence aux participants
     },
     {
         timestamps: true,
     }
 );
 
+FormationSchema.plugin(autopopulate); // Ajout du plugin au schéma
+
 // Création du modèle Formation à partir du schéma
-const Formation = mongoose.model<IFormation>("Formation", FormationSchema);
+const Formation = mongoose.model<IFormation>('Formation', FormationSchema);
 
 export default Formation;
+

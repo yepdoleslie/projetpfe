@@ -7,6 +7,9 @@ import { connectDB } from '../config/database';
 import log from './utils/logger';
 import formationRouter from './routes/formationRouter';
 import moduleRouter from './routes/moduleRouter';
+import quizRouter from './routes/quizRouter';
+import questionRouter from './routes/questionRouter';
+import reponseRouter from './routes/reponseRouter';
 
 const app = express();
 
@@ -29,6 +32,9 @@ app.get('/healthcheck', (_, res) => {
 // Utiliser le routeur de formation
 app.use('/formations', formationRouter);
 app.use('/modules', moduleRouter);
+app.use('/quiz' , quizRouter );
+app.use('/question', questionRouter )
+app.use('/reponse' , reponseRouter);
 
 const PORT = process.env.PORT;
 
